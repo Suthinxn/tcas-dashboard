@@ -2,12 +2,19 @@
 from dash import Dash, html, dash_table, dcc
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px
 
 # Incorporate data
 data = pd.read_csv("data/filtered_ai_com_courses.csv")
 
+
+external_stylesheets = [
+    "https://cdn.jsdelivr.net/npm/daisyui@3.7.6/dist/full.css"
+]
+
 # Initialize the app
-app = Dash()
+# app = Dash()
+app = Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Create scatter map figure
 def create_scatter_map(df):
@@ -49,21 +56,83 @@ def create_scatter_map(df):
     return fig
 
 # App layout
-app.layout = [
+app.layout = html.Div([
     html.Div([
         html.Div([
-            html.H1("TCAS-DASHBOARD", style={"text-align": "center"})
-        ]),
+            html.Div([
+                html.Div("🎓 TCAS68 Dashboard", style={"fontSize": "2rem", "fontWeight": "bold"})
+            ], className="navbar-start"),
+            html.A(
+                html.Button("Go to TCAS", className="btn btn-neutral"), href="https://mytcas.com/", 
+                target="_blank",
+                className="navbar-end")
+        ], className="navbar bg-base-200 shadow-sm")
+    ]),
+
+    html.Div([
         html.Div([
-            html.H2("Universities Location Map", style={"text-align": "center"}),
-            dcc.Graph(figure=create_scatter_map(data))
-        ]),
-        # html.Div([
-        #     html.H2("University Acceptance Data"),
-        #     dcc.Graph(figure=px.histogram(data, x='university_name_th', y='number_acceptance_mko2'))
-        # ])
-    ])
-]
+
+        # ฝั่งซ้าย: แผนที่
+        html.Div([
+            html.H2("🌍 Universities Location Map", style={
+                "fontSize": "1.25rem",
+                "fontWeight": "600",
+                "marginBottom": "1rem",
+                "textAlign": "center"
+            }),
+            dcc.Graph(figure=create_scatter_map(data), style={"width": "100%"})
+        ], style={
+            "width": "50%",
+            "height": "50%",
+            "background": "#fff",
+            "boxShadow": "0 2px 8px #e5e7eb",
+            "padding": "1.5rem"
+        }),
+
+        # ฝั่งขวา: สอง histogram ซ้อนกันแนวตั้ง
+        html.Div([
+            html.H2("📊 University Acceptance Data", style={
+                "fontSize": "1.25rem",
+                "fontWeight": "600",
+                "marginBottom": "1rem"
+            }),
+            dcc.Graph(
+                figure=px.histogram(data, x='university_name_th', y='number_acceptance_mko2'),
+                style={"height": "45%"}
+            ),
+
+            html.H2("📊 University Acceptance Data 2", style={
+                "fontSize": "1.25rem",
+                "fontWeight": "600",
+                "marginBottom": "1rem",
+                "marginTop": "2rem"
+            }),
+            dcc.Graph(
+                figure=px.histogram(data, x='university_name_th', y='number_acceptance_mko2'),
+                style={"height": "45%"}
+            )
+        ], style={
+            "height": "92vh",      # เท่ากับ map
+            "width": "50%",
+            "background": "#fff",
+            "boxShadow": "0 2px 8px #e5e7eb",
+            "padding": "1.5rem",
+            "display": "flex",
+            "flexDirection": "column",
+            "justifyContent": "space-between"
+        }),
+        ], style={"display": "flex", "width": "100%"}),
+
+
+        html.Div([
+            html.Div([
+                html.H2("📊 University Acceptance Data", className="text-xl font-semibold mb-4"),
+                dcc.Graph(figure=px.histogram(data, x='university_name_th', y='number_acceptance_mko2'))
+            ], className="card bg-base-100 shadow-xl p-6")
+
+        ], className="w-full lg:w-1/2 p-4")
+    ], className="flex flex-wrap justify-center")
+], className="container mx-auto py-4")
 
 # Run the app
 if __name__ == '__main__':
