@@ -15,7 +15,6 @@ if 'latitude' not in data.columns:
 if 'longitude' not in data.columns:
     data['longitude'] = None
 
-# วิธีที่ 1: ใช้ loop แบบเดิมแต่แก้ไขปัญหา
 print("กำลังดึงข้อมูลพิกัด...")
 for idx, location in enumerate(data["university_name_th"]):
     try:
