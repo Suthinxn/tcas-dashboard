@@ -2,7 +2,7 @@
 ![dashboard](https://github.com/Suthinxn/tcas-dashboard/blob/main/dashboard-demo.png)
 This project is part of the course  **241-353 ART INTELL ECOSYSTEM MODULE**
 
-A web-based dashboard application for TCAS (Thai University Central Admission System) data visualization and analysis. This project includes data scraping, cleaning, geocoding, and interactive dashboard features for Computer Engineering, Artificial Intelligence Engineering.
+This project presents a dashboard for TCAS68 data, focusing on academic programs in Computer Engineering and Artificial Intelligence Engineering across universities in Thailand.
 
 create by : 6610110341 สุธินันท์ รองพล
 
